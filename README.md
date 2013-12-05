@@ -1,4 +1,4 @@
-google_map_geocoder
+Google Map Geocoder
 ===================
 
-Search for a location and get the coordinates returned to you
+Search for a location and then drag and drop the marker for a more accurate location.
