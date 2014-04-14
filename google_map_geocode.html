@@ -38,67 +38,70 @@
 	<script>
 
 	// initialize geocode and map
-	var geocoder;
-	var map;
-	var marker;
-	var lat;
-	var lng;
-	var point;
+var geocoder;
+var map;
+var marker;
+var lat;
+var lng;
+var point;
 
-	function initialize() {
-		
-		geocoder = new google.maps.Geocoder();
-		var latlng = new google.maps.LatLng(54.175,-6.34);
-		var mapOptions = {
-			zoom: 10,
-			center: latlng
-		}
-
-
-		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-		
-		marker = new google.maps.Marker({
-			map: map,
-			position: map.getCenter(),
-			draggable: true
-		});
-
-		showCoords();
-		
-		google.maps.event.addListener(marker, 'dragend', function() {
-			point = marker.getPosition();
-			map.panTo(point);
-			showCoords(point);
-		});
-
-		google.maps.event.addListener(map, 'dragend', function() {
-			point = marker.getPosition();
-			marker.setPosition(map.getCenter());
-			showCoords(point);
-		});
-
-	} /* END initialize */
-
-	function codeAddress(){
-		var address = document.getElementById('address').value;
-		geocoder.geocode({'address': address}, function(results, status){
-			if(status == google.maps.GeocoderStatus.OK){
-				map.setCenter(results[0].geometry.location);
-				marker.setPosition(map.getCenter());
-				showCoords();
-			}else{
-				alert('Geocode was not successful for the following reason: ' + status)
-			}
-		});
+function initialize() {
+	
+	geocoder = new google.maps.Geocoder();
+	
+	lat = 54.175;
+	lng = -6.34;
+	var latlng = new google.maps.LatLng(lat,lng);
+	var mapOptions = {
+		zoom: 10,
+		center: latlng
 	}
 
-	function showCoords(point){
+
+	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	
+	marker = new google.maps.Marker({
+		map: map,
+		position: map.getCenter(),
+		draggable: true
+	});
+
+	showCoords();
+	
+	google.maps.event.addListener(marker, 'dragend', function() {
 		point = marker.getPosition();
-		document.getElementById("lat").value = point.lat().toFixed(5);
-		document.getElementById("lng").value = point.lng().toFixed(5);
-	}
+		map.panTo(point);
+		showCoords(point);
+	});
 
-	google.maps.event.addDomListener(window, 'load', initialize);
+	google.maps.event.addListener(map, 'dragend', function() {
+		point = marker.getPosition();
+		marker.setPosition(map.getCenter());
+		showCoords(point);
+	});
+
+} /* END initialize */
+
+function codeAddress(){
+	var address = document.getElementById('address').value;
+	geocoder.geocode({'address': address}, function(results, status){
+		if(status == google.maps.GeocoderStatus.OK){
+			map.setCenter(results[0].geometry.location);
+			marker.setPosition(map.getCenter());
+			showCoords();
+		}else{
+			alert('Geocode was not successful for the following reason: ' + status)
+		}
+	});
+}
+
+function showCoords(point){
+	point = marker.getPosition();
+	document.getElementById("lat").innerHTML = point.lat().toFixed(5);
+	document.getElementById("lng").innerHTML = point.lng().toFixed(5);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
 
 	</script>
 </head>
@@ -110,7 +113,11 @@
 			<input type="button" value="Search" onclick="codeAddress()">
 		</div>
 		<div id="lonlat">
+<<<<<<< HEAD
 			Latitude: <input type="text" id="lat" value="" readonly> || Longitude: <input type="text" id="lng" value="" readonly>
+=======
+			Latitude: <span id="lat"></span> || Longitude: <span id="lng"></span>
+>>>>>>> parent of c6c5200... Removed excess code
 		</div>
 		<div id="map-canvas"></div>
 	</div>
